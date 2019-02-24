@@ -1,8 +1,7 @@
 ---
 layout: post
-title:  "学习肌球蛋白"
-date:   2015-11-24 16:39:28 +0800
-categories: jekyll update
+title: 肌球蛋白
+author: cbtpro
 ---
 
 [![内啡肽](http://echo.chenbitao.com/wp-content/uploads/2015/11/内啡肽.gif)](http://echo.chenbitao.com/wp-content/uploads/2015/11/内啡肽.gif)
