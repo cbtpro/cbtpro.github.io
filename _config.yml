@@ -9,3 +9,12 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+
+defaults:
+  -
+    scope:
+      path: "assets/img"
+    values:
+      layout: post
+      author: cbtpro
+      image: true

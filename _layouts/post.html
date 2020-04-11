@@ -1,0 +1,16 @@
+---
+layout: "wrapper"
+author: "cbtpro"
+---
+{% if page.title == "Template" or page.author == "chenbitao" %}
+  This is the Template
+{% elsif page.title =="Welcome to Jekyll!" %}
+  Welcome
+{% else %}
+  文章
+{% endif %}
+<h1>{{ page.title }}</h1>
+<h3>{{ page.author }}</h3>
+<!--{{ page.author }}-->
+<!--{{ layout.author }}-->
+{{ content }}

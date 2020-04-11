@@ -2,6 +2,8 @@
 layout: post
 title: 肌球蛋白
 author: cbtpro
+categories: life
+permalink: /:categories/:year/:month/:day/stay-happy.html
 ---
 
 [![内啡肽](http://echo.chenbitao.com/wp-content/uploads/2015/11/内啡肽.gif)](http://echo.chenbitao.com/wp-content/uploads/2015/11/内啡肽.gif)
