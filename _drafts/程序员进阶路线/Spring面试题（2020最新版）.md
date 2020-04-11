@@ -1,9 +1,15 @@
-# Spring面试题（2020最新版）
+---
+title: Spring面试题（2020最新版）转自[ThinkWon](https://me.csdn.net/ThinkWon)博客
+layout: post
+---
+# Spring面试题（2020最新版）转自[ThinkWon](https://me.csdn.net/ThinkWon)博客
 
 由[ThinkWon](https://me.csdn.net/ThinkWon)发布于CSDN博客
 
 > 版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
 > 本文链接：https://blog.csdn.net/ThinkWon/article/details/104397516
+
+只转了这一篇，质量可见一斑，想看更多了请关注作者本人！
 
 ## 目录
 
