@@ -16,5 +16,6 @@ defaults:
       path: "assets/img"
     values:
       layout: post
+      title: "未命名"
       author: cbtpro
       image: true

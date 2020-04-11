@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "自定义html组件"
-date:   2019-02-23 23:37:02 +0800
 categories: jekyll update
 author: cbtpro
 ---
