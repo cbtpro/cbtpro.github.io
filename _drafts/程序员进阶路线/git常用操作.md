@@ -1,0 +1,136 @@
+## 开发人员常用git操作
+
+## 日常开发需要关注的部分
+
+```sequence
+dev-->Feature:git checkout -b some-feature develop
+Feature-->local仓库:
+local仓库-->Feature:git add ./git add some-file.js/git commit
+Feature-->dev:git checkout dev/git merge some-feature
+```
+
+新增和修改文件后，需要提交到本地some-feature的仓库
+
+```shell
+#慎用git add .，会把所有的有更改的文件提交到staged中
+git add src/App.vue
+git commit # 按规范填写注释
+```
+
+保持本地开发代码是最新状态的
+
+```shell
+git pull origin dev
+```
+
+合并some-feature到开发分支
+
+```shell
+git checkout dev  #将本地仓库切换到dev
+git merge some-feature  #合并some-feature到dev
+git push  #提交到dev的远程仓库
+```
+
+最后回到some-feature分支继续开发
+
+```shell
+git branch -d some-feature
+```
+
+当执行merge操作的时候，git已经从some-feature拉了一条线到dev上。
+
+## 发布release版本
+
+release版本是从dev分支上checkout代码,基本上不会每天操作，有大的发布计划的时候才需要去执行
+
+```shell
+git checkout -b release-0.1 develop
+```
+
+此时不能有新功能的提交到dev中，这个操作对应项目开发中的发布阶段，所以不在这个发布阶段的功能，应该都在下一个迭代中提交。
+
+## 改善git操作
+
+### 修改个人信息
+
+```shell
+git config --global user.name "chenbitao"
+git config --global user.email "chenbitao1@huawei.com"
+```
+
+## 合并代码
+
+### 分支合并到另一个分支
+
+从dev合并到master
+
+```shell
+git checkout master
+git merge dev
+```
+
+### 从dev合并文件到release
+
+```shell
+git checkout release
+git checkout --patch dev package.json
+```
+
+### 从dev分支合并几个文件到release分支
+
+```shell
+git checkout release
+git checkout --patch dev package.json src\Index.vue
+```
+
+## 更改本地commit注释
+
+已经commit但是还未push到服务器的，仍然是可以添加新的文件和修改注释的。
+
+```shell
+git commit --amend
+```
+
+## 回退到某个版本号[^注意]
+
+[^注意]: 谨慎操作，建议只在做分支合并的时候使用，因为有备份
+
+```
+git reset --hard 【merge前的commitid】
+```
+## 将已经commit但未push的代码重新放入暂存区
+
+```shell
+git reset commit前一个commitid
+```
+
+## 删除本地的远端已经删除的分支
+
+```shell
+# 显示远程分支和本地分支
+git remote show origin
+# 删除远端已经删除的分支
+git remote prune origin
+```
+## 删除本地分支
+
+```shell
+git branch -d 分支名（remotes/origin/分支名）
+```
+
+
+
+## 强制删本地
+
+```shell
+git branch -D 分支名
+```
+
+
+
+## 删除远程分支
+
+```
+git push origin --delete 分支名（remotes/origin/分支名）
+```
+
