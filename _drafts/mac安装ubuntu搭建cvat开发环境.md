@@ -43,7 +43,7 @@ apt-get install git wget vim
 
 开始部署开发环境https://github.com/opencv/cvat/blob/master/CONTRIBUTING.md
 
-安装依赖，注意前几步中已已经安装了指定版本的python，这里就不需要安装python相关的东西了
+安装依赖，注意这里就不需要安装python相关的东西了
 
 ```shell
 apt-get --no-install-recommends install -y ffmpeg build-essential nodejs npm curl redis-server libldap2-dev libsasl2-dev
@@ -54,8 +54,7 @@ apt-get --no-install-recommends install -y ffmpeg build-essential nodejs npm cur
 安装freetype
 
 ```shell
-wget https://download.savannah.gnu.org/releases/freetype/freetype-2.10.1.tar.gz
-# or wget https://nchc.dl.sourceforge.net/project/freetype/freetype2/2.10.1/freetype-2.10.1.tar.gz
+wget https://nchc.dl.sourceforge.net/project/freetype/freetype2/2.10.1/freetype-2.10.1.tar.gz
 tar -zxvf ./freetype-2.10.1.tar.gz
 cd freetype-2.10.1
 ./configure
