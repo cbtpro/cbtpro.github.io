@@ -1,0 +1,124 @@
+# Git文档
+
+[git文档](https://git-scm.com/book/zh/v2)
+
+# 修改commit提交信息
+
+## 全局生效修改
+
+```shell
+git config --global user.name "chenbitao"
+git config --global user.email "chenbitao@vendetech.com"
+```
+
+## 仅当前项目生效
+
+```shell
+git config --local user.name "chenbitao"
+git config --local user.email "chenbitao@vendetech.com"
+```
+
+# 合并代码
+
+合并代码有两种方式：网页的创建merge request（github里叫request pull）和本地merge后再commit和push到远端。
+
+## 网页创建merge request
+
+将本地的代码push后，就可以在仓库页面上点击`Create merge request`按钮，仔细阅读页面的内容。
+
+> New Merge Request
+> From `dev` to master Change branches
+
+如果合并方向错了，点击Change branchs就可以重新设定合并方向。
+
+1. 如果需要有人帮你进行code review，请选择Assignee。
+2. 如果这次合并是一个重大的版本，可以选择一个里程碑
+3. 如果这次合并跟issue相关，可以选择label来区分是新特性还是bug修复。
+4. 默认情况下请不要勾选提交合并后删除源分支，如果有删除需求，请手动删除。
+
+Commit/Changes可以查看修改和提交记录。
+
+点击submit merge request进行下一步：再确认。这一步如果有配置代码检测工具，请稍等片刻。Merge按钮变绿后，就可以点击Merge完成合并了。
+
+如果在没有其他提交的情况下，可以点击Revert进行还原。
+
+使用Cherry-pick可以重提交中重新挑拣部分修改创建一个新的request。
+
+当然也可以在这个页面进行互动，点赞、踩评论。
+
+## 本地合并
+
+从dev合并到master
+
+```shell
+git checkout master
+git merge dev
+```
+
+从dev合并文件到release
+
+```shell
+git checkout release
+git checkout --patch dev package.json
+```
+
+从dev分支合并几个文件到release分支
+
+```shell
+git checkout release
+git checkout --patch dev package.json src\Index.vue
+```
+
+
+
+# 后悔药
+
+## 更改本地commit注释
+
+已经commit但是还未push到服务器的，仍然是可以添加新的文件和修改注释的。
+
+```shell
+git commit --amend
+```
+
+## 回退到某个版本号[^注意]
+
+[^注意]: 谨慎操作，建议只在做分支合并的时候使用，因为有备份
+
+```
+git reset --hard 【merge前的commitid】
+```
+## 将已经commit但未push的代码重新放入暂存区
+
+```shell
+git reset commit前一个commitid
+```
+
+# 删除分支
+
+## 删除本地的远端已经删除的分支
+
+```shell
+# 显示远程分支和本地分支
+git remote show origin
+# 删除远端已经删除的分支
+git remote prune origin
+```
+## 删除本地分支
+
+```shell
+git branch -d 分支名（remotes/origin/分支名）
+```
+
+## 强制删本地分支
+
+```shell
+git branch -D 分支名
+```
+
+## 删除远程分支
+
+```
+git push origin --delete 分支名（remotes/origin/分支名）
+```
+

@@ -157,6 +157,7 @@ cd cvat
 git pull
 git remote rm origin
 git remote add origin https://github.com/opencv/cvat.git
+git pull
 git branch --set-upstream-to=origin/master master
 ```
 
