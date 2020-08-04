@@ -1,6 +1,6 @@
 title: 大反派
 email: cbtpro@163.com
-description: 'Go as far as you can see; when you get there, you’ll be able to see farther.'
+description: '去你所能到达的最远处,等你到那儿,你会看得更远。Go as far as you can see; when you get there, you’ll be able to see farther.'
 baseurl: ''
 url: ''
 twitter_username: cbtpro
@@ -9,6 +9,10 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-paginate
+
+paginate: 10
+paginate_path: "blog/page:num"
 
 defaults:
   -
