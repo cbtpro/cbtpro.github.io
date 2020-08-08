@@ -90,3 +90,9 @@ www.example.com
 ## github-pages的妙用
 
 知道github-pages的原理是利用了一个gh-pages的分支存放index.html和其他静态资源即实现托管，可以将任何符合规范的html/js/css代码放到gh-pages分支下，来作为demo、开源项目首页、release包下载等功能。
+
+
+
+## github-pages训练课程
+
+https://lab.github.com/githubtraining/github-pages
