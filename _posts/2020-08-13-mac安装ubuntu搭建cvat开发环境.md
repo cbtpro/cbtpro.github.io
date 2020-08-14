@@ -1,4 +1,9 @@
-mac安装ubuntu搭建cvat开发环境
+---
+layout: post
+author: cbtpro
+---
+
+# mac安装ubuntu搭建cvat开发环境
 
 ## 安装docker
 

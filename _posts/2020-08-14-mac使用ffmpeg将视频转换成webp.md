@@ -1,3 +1,8 @@
+---
+layout: post
+author: cbtpro
+---
+
 ```shell
 # 下载ffmpeg源码
 git clone https://git.ffmpeg.org/ffmpeg.git

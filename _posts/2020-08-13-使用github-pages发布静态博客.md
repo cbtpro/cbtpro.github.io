@@ -1,3 +1,8 @@
+---
+layout: post
+author: cbtpro
+---
+
 # 使用github-pages发布静态博客
 
 github提供了[`github-pages`](https://docs.github.com/cn/github/working-with-github-pages),链接中是github-pages的中文文档，这篇文章只做到解释的作用。
