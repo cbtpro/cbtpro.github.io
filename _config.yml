@@ -6,7 +6,7 @@ url: ''
 twitter_username: cbtpro
 github_username: cbtpro
 markdown: kramdown
-theme: jekyll-theme-persephone
+theme: minima
 plugins:
   - jekyll-feed
 
