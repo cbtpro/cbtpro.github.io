@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "安装Apache Sever"
-date:   2016-01-29 23:19:12 +0800
 categories: jekyll update
 ---
 
