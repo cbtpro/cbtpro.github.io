@@ -22,7 +22,8 @@ spring-jekyll-theme:
     linkedin: 陈-碧滔-6985058b
 
 markdown: kramdown
-theme: spring-jekyll-theme
+remote_theme: cbtpro/spring-jekyll-theme
+# theme: spring-jekyll-theme
 plugins:
   - jekyll-feed
 

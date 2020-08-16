@@ -9,10 +9,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-# gem "spring-jekyll-theme", "~> 0.0.1"
-source "https://rubygems.pkg.github.com/cbtpro" do
-  gem "spring-jekyll-theme", "0.0.1"
-end
+gem "spring-jekyll-theme", "~> 0.0.1"
 gem "github-pages", group: :jekyll_plugins
 
 # If you have any plugins, put them here!
