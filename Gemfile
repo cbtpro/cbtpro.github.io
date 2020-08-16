@@ -1,5 +1,5 @@
-# source "https://rubygems.org"
-source "https://gems.ruby-china.com"
+source "https://rubygems.org"
+# source "https://gems.ruby-china.com"
 
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
@@ -9,7 +9,10 @@ source "https://gems.ruby-china.com"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "spring-jekyll-theme", "~> 0.0.1"
+# gem "spring-jekyll-theme", "~> 0.0.1"
+source "https://rubygems.pkg.github.com/cbtpro" do
+  gem "spring-jekyll-theme", "0.0.1"
+end
 gem "github-pages", group: :jekyll_plugins
 
 # If you have any plugins, put them here!
