@@ -2,6 +2,7 @@
 layout: post
 author: cbtpro
 ---
+webp是谷歌发布的开源图片格式
 
 ```shell
 # 下载ffmpeg源码

@@ -3,10 +3,25 @@ email: cbtpro@163.com
 description: '去你所能到达的最远处,等你到那儿,你会看得更远。Go as far as you can see; when you get there, you’ll be able to see farther.'
 baseurl: ''
 url: ''
-twitter_username: cbtpro
-github_username: cbtpro
+
+# 备案号
+for_the_record: 粤ICP备16033319号
+show_excerpts: true # set to true to show excerpts on the homepage
+
+# date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+spring-jekyll-theme:
+  date_format: '%b %-d, %Y'
+  # generate social links in footer
+  social_links:
+    github: cbtpro
+    rss: rss
+    github: cbtpro
+    bilibili: "2186010"
+    linkedin: 陈-碧滔-6985058b
+
 markdown: kramdown
-theme: minima
+theme: spring-jekyll-theme
 plugins:
   - jekyll-feed
 
@@ -19,3 +34,6 @@ defaults:
       title: "未命名"
       author: cbtpro
       image: true
+
+# 畅言评论
+changyan: true
