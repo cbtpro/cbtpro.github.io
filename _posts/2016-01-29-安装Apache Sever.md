@@ -10,7 +10,7 @@ categories: jekyll update
 
 Apache HTTP Server X.X.XX(httpd) 字样的就是要下载的Apache，选择最近版本，会跳到下载的锚点部分，如果是如果是linux，选择.tar.bz2或者tar.gzde 包。这里因为操作系统是Window，所以选择Files for Microsoft Windows.当新手打开这个页面的时候肯定会蒙圈：打开的页面就是没有exe或者msi的安装包。这是因为Apache本身不提供已编译的安装包，只提供源码，如果自己无法编译，可以选择官方推荐的第三方提供的编译网站。
 
-[![QQ截图20160129230345](http://echo.chenbitao.com/wp-content/uploads/2016/01/QQ截图20160129230345.png)](http://echo.chenbitao.com/wp-content/uploads/2016/01/QQ截图20160129230345.png)  我们用ApacheHaus来做示范。
+[![QQ截图20160129230345](/assets/images/2016/01/QQ截图20160129230345.png)](/assets/images/2016/01/QQ截图20160129230345.png)  我们用ApacheHaus来做示范。
 
 ApacheHaus列出了各个版本，包括各种组件、升级包。选择Apache 2.4 VC11下载，下载完成后解压，将Apache24放到你想要放的地方，接下来就开始安装了。
 
@@ -40,7 +40,7 @@ ApacheHaus列出了各个版本，包括各种组件、升级包。选择Apache 
 
 执行安装命令时，如果提示缺失组件或者报任何错误，百度电脑专家是个很好的工具，可以用他来修复，修复完成后继续安装。
 
-[![QQ截图20160129231951](http://echo.chenbitao.com/wp-content/uploads/2016/01/QQ截图20160129231951.png)](http://echo.chenbitao.com/wp-content/uploads/2016/01/QQ截图20160129231951.png)
+[![QQ截图20160129231951](/assets/images/2016/01/QQ截图20160129231951.png)](/assets/images/2016/01/QQ截图20160129231951.png)
 
 &nbsp;
 

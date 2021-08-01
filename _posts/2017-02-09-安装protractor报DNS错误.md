@@ -28,4 +28,4 @@ webdriver-manager start
 
 可以看到报了个selenium是必须的部分.配置DNS服务地址为谷歌的DNS 8.8..8.8和8.8.4.4,再重新执行命令就可以了.
 
-![img](http://echo.chenbitao.com/googlednsconfig.png)
+![img](/assets/images/googlednsconfig.png)
