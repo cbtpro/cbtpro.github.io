@@ -38,4 +38,7 @@ defaults:
       image: true
 
 # 畅言评论
-changyan: true
+changyan:
+  enable: true
+  appid: "cyv0w4Idr" 
+  conf: "prod_5e174fc026ccc627c2d1028e481f61ea"

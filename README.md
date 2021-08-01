@@ -12,7 +12,7 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 ```shell
 export http_proxy=http://127.0.0.1:49295
-export http_proxy=https://127.0.0.1:49295
+export https_proxy=http://127.0.0.1:49295
 ```
 
 参考
