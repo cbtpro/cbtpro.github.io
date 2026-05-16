@@ -4,5 +4,6 @@ _site
 .jekyll-cache
 .jekyll-metadata
 vendor
+.bundle
 .history/
 .DS_Store
