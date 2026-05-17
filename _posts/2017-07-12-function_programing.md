@@ -4,7 +4,6 @@ title:  "偏函数编程（Partial Function）"
 date:   2017-07-12 23:50:32 +0800
 categories: jekyll update
 ---
-
 偏函数编程（Partial Function）  
 >偏函数编程不是数学里的偏函数
 

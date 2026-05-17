@@ -2,7 +2,6 @@
 layout: post
 author: cbtpro
 ---
-
 webp是谷歌发布的开源图片格式
 
 ```shell
@@ -27,6 +26,3 @@ export PATH=$PATH:/usr/local/ffmpeg/bin
 
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:/usr/local/Cellar/sdl2/2.0.8/lib/pkgconfig:/usr/local/ffmpeg/lib/pkgconfig
 ```
-
-
-

@@ -1,0 +1,372 @@
+---
+layout: post
+title: "【翻译】教程：在javascript中制作恼人的彩虹"
+date: 2024-05-31
+tags: ["前端", "JavaScript", "HTML", "AIGC", "Java", "后端"]
+---
+原文：[教程：在 Javascript 中制作烦人的彩虹和其他颜色循环 (krazydad.com)](https://link.juejin.cn?target=https%3A%2F%2Fkrazydad.com%2Ftutorials%2Fmakecolors.php)
+
+### 吉姆·布姆加德纳（jim bumgardner）的教程（[@jbum](https://link.juejin.cn?target=https%3A%2F%2Ftwitter.com%2F%23!%2Fjbum)推特）
+
+2012年6月:你可以在[Jason Cohen 的博客](https://link.juejin.cn?target=http%3A%2F%2Fblog.asmartbear.com%2Fcolor-wheels.html)上找到一个很棒的、令人兴奋的关于颜色感知是如何工作的概述。他指出了一个[更深入的来源]，这也会让你付出更多的时间。
+
+2011年12月12日:Charlie Loyd对本文中介绍的技术进行了[很好的分析](https://link.juejin.cn?target=http%3A%2F%2Fbasecase.org%2Fenv%2Fon-rainbows)，并为正弦生成彩虹(他很好地将其称为“正弦彩虹”)提供了一个很好的案例，作为比更常见的hsb空间彩虹(具有亮度/饱和度辐条)美学上的改进。
+
+2011年1月:从我编写本教程开始，CSS3引入了hsla()颜色规范，这使得本文中介绍的各种技巧在支持CSS3的浏览器上更容易实现。由于我的目的是教授一些简单的色彩理论和应用数学，我建议你在阅读本文时假装这个功能不存在。然后，你可以随意使用它!然而，正如您将看到的，这里展示的sinebow比HSL色调扫描有一些美学上的改进。
+
+我们开始吧，好吗?
+
+## 将R、G、B的值转换为HTML十六进制表示法
+
+在电脑显示器上，你可以通过组合红、绿、蓝得到不同的颜色。红色、绿色和蓝色电平被称为“颜色分量”。
+为了生成彩虹般的颜色序列，我将操作每个后续颜色的单独RGB分量。因此，我需要的第一件事是一个实用函数，将单个红、绿、蓝值转换为HTML十六进制颜色规范，看起来像这样:
+
+#AABBCC
+
+这表示每个分量有8位的RGB颜色。在8位颜色系统中，颜色分量R、G和B的值可以在0 ~ 255之间。但是HTML颜色规范使用十六进制表示法表示每个分量，因此每个分量占用两位数字。
+
+在十六进制中，每个颜色分量(红、绿、蓝)占两位，如下所示:#RRGGBB。所以我们的颜色有以下十六进制值:
+
+| 分量 | 值 (十六进制) || --- | --- || Red | AA || Green | BB || Blue | CC |
+十六进制数是以16为基数的数。可以使用下表将两个十六进制数字转换为等价的十进制数字。
+
+| 十六进制 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 一个 | B | C | D | E | F || --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- || 十进制 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+如果你手边没有计算器可以做十六进制->十进制转换，自己做也不难。只需取第一个数字，将其转换为小数(使用上面的表格，这很容易记住，特别是如果你周五不忙的话)，乘以16，然后将第二个数字的小数相加。例如，数字AB对应于10*16 + 11，即171。
+
+使用这个公式，你会看到颜色#AABBCC对应下面的值:
+
+| 分量 | 值 (十六进制) | 值 (十进制) || --- | --- | --- || Red | AA | 170 || Green | BB | 187 || Blue | CC | 204 |
+我在本教程中需要的是一个反向转换的函数——将170,187,204转换回#AABBCC。我会这样使用它:：
+
+```ini
+output = RGB2Color(170,187,204);
+```
+
+并且知道字符串'#AABBCC'在输出值中，它可以使用document.write()命令作为HTML输出。
+
+这是函数。
+
+```scss
+function RGB2Color(r,g,b)
+  {
+    return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+  }
+```
+
+我的转换函数依赖于另一个实用函数，byteToHex()，它将每个颜色分量从数值(如170)转换为十六进制字符串(如'AA'):
+
+```javascript
+function byte2Hex(n)
+  {
+    var nybHexString = "0123456789ABCDEF";
+    return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
+  }
+```
+
+该函数依赖于二进制算术运算符>>和&，它们将数字视为二进制，这与hexdecimal密切相关。二进制数中的每4个比特(或二进制数字)对应一个十六进制数字0-F。因此，该函数取数字的左4位(由n >> 4给出，它将数字向右移动4位)并将其转换为十六进制，然后取数字的右4位(由n和0x0F给出，它屏蔽了最右4位)并将其转换为十六进制。
+
+我要指出的是，十进制->十六进制转换(以及一般的数字格式化)在提供`printf`函数的语言中要容易得多，而`printf`函数正是Javascript所缺少的。
+
+在Perl中，可以在一行代码中完成相同的转换，如下所示:
+
+```ini
+output = sprintf '#%02x%02x%02x', $r, $g, $b;
+```
+
+如果没有老式的CSS颜色规范，也可以不用byte2Hex更简单地生成颜色，如下所示:
+
+```javascript
+function RGB2Color(r,g,b)
+  {
+    return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
+  }
+```
+
+## 正弦波周期
+
+我将要使用的基本工具是正弦波。Javascript中有一个函数Math.sin()，它可以产生一个平滑的波动值，从0到1到0到-1，然后返回0。下面是一些例子:
+
+正弦波在现实生活中非常有用，与你在三角函数课上无意中学到的知识相反，它们在各种与图形和音乐有关的事情中特别有用。
+
+为了得到这个模式，我在Math.sin()函数中输入了一个稳步增加的值。你可以使用循环来生成一系列正弦波值，如下所示:
+
+```ini
+var frequency = .3;
+for (var i = 0; i < 32; ++i)
+{
+   Document.write( Math.sin(frequency * i)  );
+}
+```
+
+你可能已经注意到，当频率*i等于6.2时，正弦波图案开始重复。它重复的精确值实际上是2π(2乘以PI)或6.28318，它正好对应于半径为1的圆的周长。你可能已经知道，正弦波与圆密切相关。正弦波的中点正好是π，即3.14159…
+
+在这里，我想为在无衬线字体中π (PI)字符看起来有多么糟糕而道歉，目前80%的计算机使用这种字体。如果我使用可爱的Times Roman， π字符的识别度会高得多。遗憾的是，我没有，因为几乎所有的东西我都觉得San Serif字体更可读。但是我跑题了……
+
+在Math.sin()函数中使用的π单位(称为弧度)和更熟悉的角度之间存在一种关系，从0到360(角度是一个古老的巴比伦单位——巴比伦人非常喜欢像60和360这样的数字，因为各种数字都可以平均地进入它们。此外，巴比伦人还没有发明馅饼…)
+
+| 度 | 弧度 || --- | --- || 0 | 0 || 90 | π/2 || 180 | π || 270 | 3*π/2 || 360 | 2*π |
+在Javascript中，你可以这样生成π的值:
+
+```javascript
+document.write(Math.PI);
+```
+
+像这样:
+
+3.141592653589793
+
+我个人最多能记住8位数字的π。有点浪费大脑灰质，真的。
+
+说到灰质…
+
+## 用正弦波制作灰色阴影
+
+我可以使用Math.sin()的返回值来生成波动的颜色值。不过，我需要做点转换。如上所示，Math.sin()的返回值从-1到1。我用来使RGB颜色从0到255的颜色分量。所以我需要把一个数字从(-1——> 1)转换成(0——> 255)。
+
+这并不难，因为我们想让正弦值从某个中心值开始，然后上下移动一定的距离。由于正弦波上升到1，然后下降到-1，它已经被归一化了(这意味着它的最大值是1，这是一个非常有用的数字)。我们可以把它乘以另一个数，它会上升到这个数，然后下降到这个数的负数。
+
+对于我们的颜色值，如果我们使用 255/2 作为中心值，并让正弦值以 255/2 的幅度上下波动（这样可以达到 255 和 0），效果会很好。
+
+```ini
+color_component = Math.sin(frequency*i)*255/2 + 255/2;
+```
+
+我通常用整数表示如下:
+
+```ini
+color_component = Math.sin(frequency*i)*128 + 127;
+```
+
+…虽然不完全一样，但已经很接近了。
+更一般地，当我们想用正弦波来振荡时，我们会使用这个公式
+
+```javascript
+value = Math.sin(frequency*increment)*amplitude + center;
+```
+
+频率是控制波振荡速度的常数
+Increment是一个计数变量，通常由循环提供
+振幅控制波的高度(和高度)
+Center控制波的中心位置。
+
+现在我可以修改原来的正弦波循环，并生成一系列测试颜色。
+
+```ini
+var frequency = .3;
+var amplitude = 127;
+var center = 128;
+
+for (var i = 0; i < 32; ++i)
+{
+   v = Math.sin(frequency*i) * amplitude + center;
+
+   // Note that &#9608; is a unicode character that makes a solid block
+   document.write( '<font style="color:' + RGB2Color(v,v,v) + '">&#9608;</font>');
+}
+```
+
+在文档中。我正在通过调用RGB2Color(v,v,v)生成一种颜色。因为我传递了3次相同的值，对于红色、绿色和蓝色，我将得到灰色。在灰色中，红色、绿色和蓝色的值相同。为了查看颜色，我使用unicode值█打印出一个块字符。
+
+下面是代码生成的结果——一种颜色的正弦波:
+
+为了好玩，我可以尝试使用一系列不同的频率值。这就是我将得到的，如果我添加一个额外的外循环来改变frequency的值。
+
+## 用反相位的正弦波来制造彩虹
+
+现在，正如我提到的，上面的渐变看起来是灰色的原因是因为我对红色、绿色和蓝色使用了相同的值。我们可以尝试获取颜色的一种方法是在用于绿色和蓝色参数的v值上添加一个常量。所以我们不说：
+
+```scss
+RGB2Color(v,v,v)
+```
+
+我可能会说：
+
+```scss
+RGB2Color(v,v+30,v+60)
+```
+
+这会产生以下颜色序列：
+
+这很有趣，但这并不是我想要的。一个更好的方法是生成三个相位不同的正弦波，可以这样做：
+
+```ini
+var frequency = .3;
+for (var i = 0; i < 32; ++i)
+{
+   red   = Math.sin(frequency*i + 0) * 127 + 128;
+   green = Math.sin(frequency*i + 2) * 127 + 128;
+   blue  = Math.sin(frequency*i + 4) * 127 + 128;
+
+   document.write( '<font color="' + RGB2Color(red,green,blue) + '">&#9608;</font>');
+}
+```
+
+这样会产生如下效果：
+
+正如你所看到的，我正在使用值2和4来改变绿色和蓝色正弦波的对齐（或相位）。我选择了2和4，因为它们几乎将正弦波的范围（2π或6.2）均分为三个相等的部分，这样每个正弦波大约就相位差1/3个周期，或者说120°，如下所示：
+
+如果我想要完全的120°，我可以使用`2*Math.PI/3`代替2，以及`4*Math.PI/3`代替4，这会产生几乎相同但完美的颜色循环：
+
+然而，结果非常接近，我认为2和4是很好的替代品。据说古埃及人认为π等于三。在本教程中，我们将像古埃及人一样编程。
+
+## 关于色相循环的更多信息
+
+这个基本现象——即三个相位差为120°的正弦波会产生彩虹效果——我早在很久以前就知道了，事实上是从1980年代中期开始的。我最初是通过尝试使用正弦波来制造颜色（这是一个频繁的活动，代替了我生活中的某些部分）发现了这一点。一旦我学会了这个技巧，我就开始在想要一系列明亮颜色时使用它。例如，我的[惠特尼音乐盒](https://link.juejin.cn?target=http%3A%2F%2Fwhitneymusicbox.org%2F)中的点就是使用这个系统着色的。
+
+后来，当我对色彩理论了解更多时，我发现我所做的基本上是使颜色的色相围绕色轮上的圆圈移动。如果你在常见的颜色选择器中绘制我所做的路径，你会发现它并不产生一个完美的圆圈，而是更像一个三叶草图案，如下所示：
+
+![](/assets/images/7375054926583447563-1.jpg)
+
+注意：我使用[Processing.js](https://link.juejin.cn?target=http%3A%2F%2Fwww.processing.org%2F)来制作这个插图。用Javascript制作它会有点麻烦。如果你喜欢用Javascript进行图形编程，你会爱上Processing.js，你也会喜欢我的Processing博客(和未完成的书)：[The Joy of Processing](https://link.juejin.cn?target=http%3A%2F%2Fjoyofprocessing.com%2F)。
+
+尽管它不产生完美的色相圆圈，正弦波三叶草确实制作了漂亮的颜色渐变，而且只需几行代码就可以轻松实现彩虹效果。我实际上更喜欢它比“正确”的HSB / HSL色相循环，因为它具有更一致的亮度。它最小化了黄色、青色和洋红色的辐条，你可以在图片中看到。
+
+现在，我将讲述如何修改函数以产生更多种类的颜色和不同的色调，比如淡彩。
+
+## 泛化它
+
+在接下来的几节中，我将使用一个通用函数来绘制这些颜色渐变。它允许我为每个颜色分量指定单独的频率和相位参数。以下是代码：
+
+```ini
+function makeColorGradient(frequency1, frequency2, frequency3,
+                             phase1, phase2, phase3,
+                             center, width, len)
+  {
+    if (center == undefined)   center = 128;
+    if (width == undefined)    width = 127;
+    if (len == undefined)      len = 50;
+
+    for (var i = 0; i < len; ++i)
+    {
+       var red = Math.sin(frequency1*i + phase1) * width + center;
+       var grn = Math.sin(frequency2*i + phase2) * width + center;
+       var blu = Math.sin(frequency3*i + phase3) * width + center;
+       document.write( '<font color="' + RGB2Color(red,grn,blu) + '">&#9608;</font>');
+    }
+  }
+```
+
+这是绘制基本彩虹渐变的代码。
+
+```scss
+makeColorGradient(.3, .3, .3, 0 ,2 ,4);
+```
+
+效果如下：
+
+## 制作淡彩
+
+获取淡彩的基本技巧是将颜色分量的色域改变为使用较浅的颜色值。因此，当我们转换正弦值时，我们不再将其转换为完整的范围（0 --> 255），而是转换为类似于（205 - 255）的范围。我们将最后两个参数（中心和宽度）更改如下。在之前：
+
+```ini
+// center = 128, width = 127
+   makeColorGradient(.3,.3,.3,0,2,4, 128,127);
+```
+
+之后:
+
+```ini
+// center = 230, width = 25
+   makeColorGradient(.3,.3,.3,0,2,4, 230,25);
+```
+
+在修改后的代码中，230是正弦波的中心，25是相对于此中心值的最大偏差。因此，正弦波从230开始，上升到（230+25），然后下降到（230-25）。换句话说，它的范围是（205-255）。
+
+这样就制作了一个淡彩条：
+
+我可以通过使用更宽的范围(center=200, width=55)来获得更深的淡彩效果，如下所示：
+
+## 通过增加频率来获得更多条纹
+
+当你改变frequency的值时，可以让颜色的变化更快，也可以更慢。到目前为止，我主要使用的频率值是0.3，但是这里有一些其他值：
+
+## 相位实验
+
+对于基本的彩虹效果，我将每个正弦波的相位分离了120°。如果我将相位放得更接近会发生什么？让我们来看看：
+
+## 通过为每个分量使用单独的频率来获得更多的变化。
+
+我使用的另一个技巧是将每个颜色分量放在不同的频率上，这样可以产生更多的颜色变化。以下是代码：
+
+```ini
+redFrequency = .1;
+grnFrequency = .2;
+bluFrequency = .3;
+center = 128;
+width = 127;
+makeColorGradient(redFrequency,grnFrequency,bluFrequency,0,2,4,center,width,50);
+```
+
+…它看起来是这样的:
+
+如果我将各个通道分开，你可以看到具体的效果：
+
+使用三个不同的频率可能会产生低饱和度的颜色，例如上面示例中看到的黑色，或灰色或白色。当三个正弦波同时交叉到相同的值时，就会发生这种情况。
+
+## 让循环重复
+
+假设你希望颜色循环每6步重复一次。你该如何做到这一点呢？我的方法是使用一个频率值，该值对应于2π的1/6。记住，正弦波每2π重复一次，因此这会使颜色每6个增量重复一次。以下是代码：
+
+```ini
+center = 128;
+width = 127;
+steps = 6;
+frequency = 2*Math.PI/steps;
+makeColorGradient(frequency,frequency,frequency,0,2,4,center,width,50);
+```
+
+它看起来是这样的:
+
+## 让循环不再重复
+
+如果你不希望颜色完全重复，那么使用不会均匀分割2π的频率值。事实证明，2.4是一个非常好的选择。2.4弧度非常接近[黄金角(137.51°)](https://link.juejin.cn?target=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FGolden_angle)，这是许多植物为了最大化叶子接收阳光而生长新芽的角度。这里我使用的是基本相同的技术——我最大化了颜色重复之间的距离（这类似于茎周围的叶子重叠）。如果你在为饼图或图表选择颜色，并且不确定需要绘制多少数据值，那么2.4是一个很好的频率。以下是代码：
+
+```ini
+center = 128;
+width = 127;
+frequency = 2.4;
+makeColorGradient(frequency,frequency,frequency,0,2,4,center,width,50);
+```
+
+使用frequency为2.4时效果如下：
+
+如果你将这一技巧与为每种颜色使用不同频率的技巧结合起来，并确保没有任何单独的频率是彼此的倍数，你可以获得更多的变化。这里我使用的频率分别是1.666、2.666和3.666。
+
+```ini
+center = 128;
+width = 127;
+redFrequency = 1.666;
+grnFrequency = 2.666;
+bluFrequency = 3.666;
+makeColorGradient(redFrequency,grnFrequency,bluFrequency,0,0,0,center,width,50);
+```
+
+最后，下面是一个在文本行上实现彩虹效果的函数。
+
+```ini
+function colorText(str,phase)
+{
+    if (phase == undefined) phase = 0;
+  center = 128;
+  width = 127;
+  frequency = Math.PI*2/str.length;
+  for (var i = 0; i < str.length; ++i)
+  {
+     red   = Math.sin(frequency*i+2+phase) * width + center;
+     green = Math.sin(frequency*i+0+phase) * width + center;
+     blue  = Math.sin(frequency*i+4+phase) * width + center;
+     document.write( '<font style="color:' + RGB2Color(red,green,blue) + '">' + str.substr(i,1) + '</font>');
+  }
+}
+```
+
+好吧，这就是全部内容了。希望你喜欢这个教程！
+
+我的第二个Javascript教程:[在Javascript/Actionscript中使用神秘的操作符](https://link.juejin.cn?target=https%3A%2F%2Fkrazydad.com%2Farcaneoperators%2F)
+我的另一篇博客:[The Joy of Processing](https://link.juejin.cn?target=http%3A%2F%2Fjoyofprocessing.com%2F)
+
+这篇博客讨论了如何使用正弦波来生成颜色渐变，并展示了如何使用不同的参数和技巧来实现不同的颜色效果。它从基本的彩虹效果开始，然后介绍了如何调整参数以获得更多的颜色变化，包括淡彩和更广泛的颜色变化。文章还介绍了如何将这些技术应用到文本上，以创建彩虹文本效果。
+
+在hightchart、echarts等图形库中生成图例都有应用，这篇文章是在多年前参与到一个风资源图谱的项目时接触到，在图谱中需要生成图例和数据指示器，现在和以后都不会过时。
+
+本文由Microsoft Edge内置翻译工具、ChatGPT3.5、ChatGPT4o翻译，人工校对。

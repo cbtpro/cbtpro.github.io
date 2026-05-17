@@ -4,8 +4,6 @@ title:  "哪种模块化JavaScript写法是最棒的"
 date:   2016-08-17 23:58:28 +0800
 categories: jekyll update
 ---
-
-
 结构化写法,只是简单的将函数按功能放在不同的js文件中，算一个模块。
 
 ```javascript
@@ -86,12 +84,12 @@ const http = require('http');
 const hello = require('hello');
 const hostname = '192.168.1.10';
 const prot = 8081;
-const server = http.createServer((request, response) =&gt; {
+const server = http.createServer((request, response) => {
   response.statusCode = 200;
   response.setHeader('Content-Type', 'text/plain');
   response.end('Hello World');
 });
-server.listen(port, hostname, () =&gt; {
+server.listen(port, hostname, () => {
   console.log('Server running at http://${hostname}:${port}');
   hello.hello('Sandy');
 });

@@ -3,7 +3,6 @@ layout: post
 title:  "安装Apache Sever"
 categories: jekyll update
 ---
-
 我们要运行自己的应用就必须先安装一个容器，先从ApacheServer开始吧
 
 可以从bing上搜索Apahce的官网，或者直接访问[http://httpd.apache.org/download.cgi](http://httpd.apache.org/download.cgi)来下载。
@@ -41,9 +40,3 @@ ApacheHaus列出了各个版本，包括各种组件、升级包。选择Apache 
 执行安装命令时，如果提示缺失组件或者报任何错误，百度电脑专家是个很好的工具，可以用他来修复，修复完成后继续安装。
 
 [![QQ截图20160129231951](/assets/images/2016/01/QQ截图20160129231951.png)](/assets/images/2016/01/QQ截图20160129231951.png)
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;

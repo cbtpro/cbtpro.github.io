@@ -5,15 +5,9 @@ date: 2023-07-02 18:28:02 +0800
 categories: [Vue.js]
 tags: [Vue.js, Vue3, 弹窗, 命令式编程]
 ---
+![命令式编程弹窗.gif](/assets/images/7251065062131253309-1.jpg)
 
-> 原文发布于掘金：[使用vue3开发一个命令式弹窗](https://juejin.cn/post/7251065062131253309)
-
-![命令式编程弹窗演示](/assets/images/2023/07/vue3-command-popup-demo.awebp)
-
-代码：[github.com/cbtpro/vue3-custom-popup](https://github.com/cbtpro/vue3-custom-popup)
-
-在线预览：[cbtpro.github.io/vue3-custom-popup](https://cbtpro.github.io/vue3-custom-popup/)
-
+>> 代码：[github.com/cbtpro/vue3…](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fcbtpro%2Fvue3-custom-popup)> 在线预览：[cbtpro.github.io/vue3-custom…](https://link.juejin.cn?target=https%3A%2F%2Fcbtpro.github.io%2Fvue3-custom-popup%2F)>
 ## 背景故事
 
 不管是ant、elementui还是vant，都提供了类似的弹窗功能，但都需要在组件中注册，并将代码写在组件中。
@@ -24,7 +18,7 @@ tags: [Vue.js, Vue3, 弹窗, 命令式编程]
 
 我在使用vue2的时候，公司有好几个活动的项目，首页有许许多多各式各样的弹窗，声明式的方法让template非常臃肿，作为一个非常喜欢重构的程序员，这让我很十分头疼。
 
-当时在cube-ui中发现了一个api，[create-api](https://didi.github.io/cube-ui/#/zh-CN/docs/create-api)，可以通过命令式编程来进行弹窗，使用方法就不在这里展开了。
+当时在cube-ui中发现了一个api，[create-api](https://link.juejin.cn?target=https%3A%2F%2Fdidi.github.io%2Fcube-ui%2F%23%2Fzh-CN%2Fdocs%2Fcreate-api)，可以通过命令式编程来进行弹窗，使用方法就不在这里展开了。
 
 create-api是基于createElemet来实现的，由于开发进度紧张，于是在当时就使用create-api让template瘦身了很多，同时代码逻辑更清晰，性能也没有什么影响。
 
@@ -34,9 +28,9 @@ vue3也正式发布很久了，但create-api也很久没有维护了，所以今
 
 ## createElement
 
-vue2中使用createElement]来创建一个虚拟dom，然后可以挂载页面任何地方，想了解更多点击[这里](https://v2.cn.vuejs.org/v2/guide/render-function.html#createElement-%E5%8F%82%E6%95%B0)。
+vue2中使用createElement]来创建一个虚拟dom，然后可以挂载页面任何地方，想了解更多点击[这里](https://link.juejin.cn?target=https%3A%2F%2Fv2.cn.vuejs.org%2Fv2%2Fguide%2Frender-function.html%23createElement-%25E5%258F%2582%25E6%2595%25B0)。
 
-vue3中将createElement改名h了，想了解更多点击[这里](https://cn.vuejs.org/api/render-function.html#h)
+vue3中将createElement改名h了，想了解更多点击[这里](https://link.juejin.cn?target=https%3A%2F%2Fcn.vuejs.org%2Fapi%2Frender-function.html%23h)
 
 具体不在这里展开，下面说一下思路。
 
@@ -50,14 +44,10 @@ vue3中将createElement改名h了，想了解更多点击[这里](https://cn.vue
 
 创建一个div，并挂载到documen.body最后一个，这样做的好处：
 
-- 弹窗不受组件销毁影响
-- 不受z-index滥用影响
-- 不影响微前端架构的其他应用
-
+- 弹窗不受组件销毁影响- 不受z-index滥用影响- 不影响微前端架构的其他应用
 当然也有不好的地方
 
 - 不能使用应用的vuex
-
 ### 使用h()创建vnode
 
 感谢你看到这，这里只提供一种思路，也欢迎大家留下自己的想法，相互交流。
@@ -80,7 +70,7 @@ vue3中将createElement改名h了，想了解更多点击[这里](https://cn.vue
 
 ### 编写usePop
 
-```js
+```javascript
 import {
   App,
   Component,
@@ -182,14 +172,11 @@ export const usePopup = (
 
 1、 声明一个创建方法
 
-- 在document.body上插入一个创建的挂载点的div，并记录下引用。
-- 将传入的虚拟dom用于创建一个app，挂载到挂载点上，并记录下引用。
-  返回
-
+- 在document.body上插入一个创建的挂载点的div，并记录下引用。- 将传入的虚拟dom用于创建一个app，挂载到挂载点上，并记录下引用。
+返回
 2、声明销毁方法
 
 - 使用记录下的div、app引用，执行移除和unmount
-
 3、返回创建方法和销毁方法
 
 我们使用时只需要调用时传入声明的vnode即可。
@@ -205,7 +192,7 @@ export const usePopup = (
 
 带着这个问题一边看一遍思考，看完后我会给出我的思考。
 
-```js
+```javascript
 // src/components/popup/index.vue
 <script setup lang="ts">
 // import { Fragment, useAttrs, useSlots } from 'vue'
@@ -221,35 +208,13 @@ const emits = defineEmits(['close', 'ok', 'cancel'])
 const onClose = () => {
   emits('close', Date.now())
 }
-</script>
 
-<template>
-  <div class="popup">
-    <div @click="onClose">
       // 具名插槽close
       <slot name="close">
-      </slot>
-    </div>
+
     // 默认插槽default
     <slot />
-    <!-- <button @click="emits('ok')">ok</button>
-    <button @click="emits('cancel')">cancel</button> -->
-  </div>
-</template>
 
-<style lang="less" scoped>
-.popup {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  // pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.1);
-  // background-color: rgba(255, 0, 0, 0.377);
-}
-</style>
 ```
 
 回答刚刚的问题，emits不一定是必须的，如果组件内部提供一个点击关闭弹窗功能，则需要在外部传入onClose，组件内定义`const emits = defineEmits(['close'])`，然后关闭功能`emits['close']`
@@ -270,7 +235,7 @@ const onClose = () => {
 
 ### 新用户弹窗
 
-```js
+```javascript
 // src/components/popup/new-user.vue
 
 <script setup lang="ts">
@@ -279,69 +244,32 @@ const emits = defineEmits(['close', 'ok']);
 const okHandle = () => {
   emits('ok');
 };
-</script>
 
-<template>
-  <div class="popup-inner">
-    <div class="inner">
       <img
         src="https://img2.baidu.com/it/u=1535537231,3770427295&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750"
         class="poster"
       />
-      <div @click="okHandle" class="button-ok">Go!</div>
-    </div>
-  </div>
+      <div @click="okHandle" class="button-ok">Go!
 
-</template>
 ```
 
 ### 欢迎弹窗
 
-```js
+```javascript
 // src/components/popup/welcome.vue
 
 <script setup lang="ts"></script>
 
-<template>
-  <div class="popup-inner">
-    <div class="inner">
       <img
         src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Ff2ab120c-0a69-4a1b-b0a4-30cf755f9be9%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1690873031&t=2bfa73ae4c15b98c79e999d24fd6ac8d"
         class="poster"
       />
-    </div>
-  </div>
-</template>
 
-<style lang="less" scoped>
-.popup-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 400px;
-  background-color: #efefef;
-  .inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    .poster {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover; //重要
-    }
-  }
-}
-</style>
 ```
 
 ## 声明vnode
 
-下面是声明vnode的简单例子，`h()`函数支持多种传餐方式，这里使用的是`h(容器组件, props, 插槽)`，更多用法可以参考[h()函数](https://cn.vuejs.org/api/render-function.html#h)。
+下面是声明vnode的简单例子，`h()`函数支持多种传餐方式，这里使用的是`h(容器组件, props, 插槽)`，更多用法可以参考[h()函数](https://link.juejin.cn?target=https%3A%2F%2Fcn.vuejs.org%2Fapi%2Frender-function.html%23h)。
 
 `CustomPopupContainer`是设计的弹窗的容器组件，包裹弹窗内容。
 
@@ -350,7 +278,7 @@ const okHandle = () => {
 
 `h`的第三个参数则是插槽。`插槽名称: () => 组件的vnode`,这里注意，组件必须是`h()`创建的虚拟节点(vnode)，所以这里也是可以传attrs和插槽的！！！非常的强大。
 
-```js
+```javascript
 h(
   CustomPopupContainer,
   {
@@ -377,7 +305,7 @@ h(
 
 ### 用户访问相关弹窗。
 
-```js
+```javascript
 // src/hooks/user-visit-popup.ts
 
 /**
@@ -423,7 +351,6 @@ export const useUserVisitPopup = () => {
   const openWelcomePopup = () => {
     welcomePopupInstance.show()
   }
-
 
   /**
    * 新用户相关弹窗
@@ -471,7 +398,7 @@ export const useUserVisitPopup = () => {
 
 ### 活动相关弹窗
 
-```js
+```javascript
 // src/hooks/event-notification-popup.ts
 /**
  * 活动相关的弹窗
@@ -563,7 +490,7 @@ export const useEventNotificationPopup = () => {
 
 hook中可以返回弹窗的引用、关闭等方法。
 
-```js
+```javascript
 <script setup lang="ts">
 import { useUserVisitPopup } from '@/hooks/user-visit-popup';
 import { useEventNotificationPopup } from '@/hooks/event-notification-popup';
@@ -571,16 +498,12 @@ import { useEventNotificationPopup } from '@/hooks/event-notification-popup';
 const { openWelcomePopup, openNewUserPopup } = useUserVisitPopup();
 
 const { openNewEventNotificationPopup, openEventNotificationPopup } = useEventNotificationPopup();
-</script>
 
-<template>
   <button @click="openWelcomePopup">弹出欢迎弹窗</button>
   <button @click="openNewUserPopup">弹出新用户弹窗</button>
   <button @click="openNewEventNotificationPopup">弹出活动预告</button>
   <button @click="openEventNotificationPopup">弹出当前正在进行中的热门活动</button>
-</template>
 
-<style lang="less" scoped></style>
 ```
 
 ## 应用场景
@@ -590,7 +513,5 @@ const { openNewEventNotificationPopup, openEventNotificationPopup } = useEventNo
 ## 扩展
 
 做弹窗的时候，参考koa的middleware编写队列工具，当上一个弹窗关闭后下一个弹窗才会弹出来，后续可能会单独讲一讲这个实现。
-
----
 
 感谢你能看到这里，以上就是开发过程中的全部思路和历程，这个方案已经多个多个项目中使用，昨天和今天花了一天半的时间重新实现并整理出文档，如果你有什么想法，可以在下面留下，互相交流。

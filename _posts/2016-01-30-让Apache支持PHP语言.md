@@ -4,7 +4,6 @@ title:  "让Apache支持PHP语言"
 date:   2016-01-30 00:49:26 +0800
 categories: Apache
 ---
-
 Apache是一个容器，但是默认是不支持PHP语言的，那么我们需要让Apache能够帮助我们学习和使用PHP。
 
 先从PHP的官网下载PHP的安装包：[http://php.net/downloads.php](http://php.net/downloads.php)
@@ -57,11 +56,11 @@ PHPIniDir "c:/php7"  ##指定php.ini目录
 
 在Apache的Web根目录下新建一个phptest.php的文件，输入以下内容：
 
-&lt;?php
+<?php
 
 phpinfo();
 
-?&gt;
+?>
 
 打开浏览器，输入http://localhost/phptest.php,如果输出了php的版本信息，表示配置成功！
 
@@ -72,7 +71,3 @@ phpinfo();
 注解1：VC14表示是由Visual C++ Redistribute 2015编译的，需要安装对应的版本，可以看到安装的时候后面显示的是14.0.23026，这个就是VC14。如果在启动服务的时候报错，安装VC14后就能解决。
 
 [![QQ截图20160130003938](/assets/images/2016/01/QQ截图20160130003938.png)](/assets/images/2016/01/QQ截图20160130003938.png)
-
-&nbsp;
-
-&nbsp;

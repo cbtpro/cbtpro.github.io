@@ -4,7 +4,6 @@ title:  "安装protractor报DNS错误"
 date:   2017-02-09 23:57:50 +0800
 categories: jekyll update
 ---
-
 protractor是一个用于angularjs的自动化段对端测试运行工具,可以模拟用户交互,帮程序员验证angularjs的运行状况.
 首先安装protractor
 

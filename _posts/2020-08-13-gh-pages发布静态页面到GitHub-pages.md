@@ -2,7 +2,6 @@
 layout: post
 author: cbtpro
 ---
-
 # gh-pages发布静态页面到GitHub-pages
 
 [gh-pages](https://www.npmjs.com/package/gh-pages)是基于nodejs开发的[github pages](https://docs.github.com/cn/github/working-with-github-pages)发布工具，可以将任何文件发布到指定的github的gh-pages仓库下。
@@ -37,9 +36,7 @@ gh-pages -d dist
 
 ## 访问
 
-当发布成功后，会输出`Published`字样后，稍等片刻，即可通过`<user>.github.io/example`访问生效后的代码。
-
-
+当发布成功后，会输出`Published`字样后，稍等片刻，即可通过`.github.io/example`访问生效后的代码。
 
 相关文档
 
@@ -50,4 +47,3 @@ https://www.npmjs.com/package/gh-pages
 github-pages
 
 https://docs.github.com/cn/github/working-with-github-pages
-

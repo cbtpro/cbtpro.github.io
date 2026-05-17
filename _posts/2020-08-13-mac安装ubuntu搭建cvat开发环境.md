@@ -2,12 +2,9 @@
 layout: post
 author: cbtpro
 ---
-
 # mac安装ubuntu搭建cvat开发环境
 
 ## 安装docker
-
-
 
 ## 使用docker安装ubuntu
 
@@ -43,8 +40,6 @@ apt-get update
 ```shell
 apt-get install git wget vim
 ```
-
-
 
 开始部署开发环境https://github.com/opencv/cvat/blob/master/CONTRIBUTING.md
 
@@ -95,8 +90,6 @@ make
 make install
 ```
 
-
-
 ## 更改pip镜像地址
 
 ```shell
@@ -118,8 +111,6 @@ cd ~/Developer/gitrepo
 git clone https://github.com/opencv/cvat
 ```
 
-
-
 安装opens-server
 
 ```shell
@@ -140,17 +131,11 @@ PasswordAuthentication yes
 service ssh --full-restart
 ```
 
-
-
 打开本地vscode安装Remote Development插件
 
 打开vscode设置，开启Show Login Terminal
 
 使用Ctrl + p，输入> Remote-ssh: OpenConfiguration File...，来配置ssh地址配置
-
-
-
-
 
 如果网络不佳，可以先克隆gitee上的仓库，然后再将仓库地址更改回github的仓库，在公司请使用公司自己的代码仓库
 
@@ -164,4 +149,3 @@ git remote add origin https://github.com/opencv/cvat.git
 git pull
 git branch --set-upstream-to=origin/master master
 ```
-

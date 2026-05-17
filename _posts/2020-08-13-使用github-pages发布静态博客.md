@@ -2,7 +2,6 @@
 layout: post
 author: cbtpro
 ---
-
 # 使用github-pages发布静态博客
 
 github提供了[`github-pages`](https://docs.github.com/cn/github/working-with-github-pages),链接中是github-pages的中文文档，这篇文章只做到解释的作用。
@@ -45,15 +44,15 @@ github-pages的原理是在你要使用github-pages功能的git仓库下自动�
 
 ## 开启gh-pages
 
-### 创建`<user>.github.io`
+### 创建`.github.io`
 
-要发布用户站点，必须创建名为 `<user>.github.io` 的用户帐户所拥有的仓库。<user>就是你注册的用户，请替换成你的用户名
+要发布用户站点，必须创建名为 `.github.io` 的用户帐户所拥有的仓库。就是你注册的用户，请替换成你的用户名
 
-登陆github后，新创建一个repo，命名为`<user>.github.io`
+登陆github后，新创建一个repo，命名为`.github.io`
 
 ### 开启GitHub-pages
 
-在仓库界面点击设置进入仓库的设置界面，`https://github.com/<user>/<user>.github.io/settings`(将user替换成自己的用户名)，页面滚动到下面找到`Github Pages`，关于github-pages的设置都在这里设置。
+在仓库界面点击设置进入仓库的设置界面，`https://github.com//.github.io/settings`(将user替换成自己的用户名)，页面滚动到下面找到`Github Pages`，关于github-pages的设置都在这里设置。
 
 如何你没有提交任何代码、也没有任何分支代码，可以直接`Change Theme`按钮，从列表中选择一个theme（主题），github会帮助新建一个主要分支，并在这个分支下新建一个`index.md`和`_config.yml`,这是jekyll的最小配置。
 
@@ -84,19 +83,17 @@ www.example.com
 
 #### 访问github-pages
 
-使用自定义域名或者`<user>.github.io`即可访问，github-pages设置在每次保存后，github都会自动去构建，构建完成既可以生效，构建过程可以在`https://github.com/<user>/<user>.github.io/deployments`页面看到。
+使用自定义域名或者`.github.io`即可访问，github-pages设置在每次保存后，github都会自动去构建，构建完成既可以生效，构建过程可以在`https://github.com//.github.io/deployments`页面看到。
 
 ## 子模块
 
-每个用户可以有一个`<user>.github.io`作为主github-pages，当前用户的其他项目也是可以开启github-pages，并且作为子模块来访问。
+每个用户可以有一个`.github.io`作为主github-pages，当前用户的其他项目也是可以开启github-pages，并且作为子模块来访问。
 
-例如还有一个demo项目也开启了GitHub-pages，则可以通过`<user>.github.io/demo`来访问demo项目下gh-pages的。
+例如还有一个demo项目也开启了GitHub-pages，则可以通过`.github.io/demo`来访问demo项目下gh-pages的。
 
 ## github-pages的妙用
 
 知道github-pages的原理是利用了一个gh-pages的分支存放index.html和其他静态资源即实现托管，可以将任何符合规范的html/js/css代码放到gh-pages分支下，来作为demo、开源项目首页、release包下载等功能。
-
-
 
 ## github-pages训练课程
 

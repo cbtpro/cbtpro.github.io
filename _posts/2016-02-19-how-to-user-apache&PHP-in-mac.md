@@ -4,7 +4,6 @@ title:  "Mac 使用Apache和PHP"
 date:   2016-02-19 17:46:37 +0800
 categories: jekyll update
 ---
-
 Mac OS X内置了Apache和PHP，所以我们只需要简单的配置就可以使用PHP。我这里以Mac OS X EI Capitan 版本10.11.3为例子。
 
 下面的操作都是在终端中操作：
@@ -43,7 +42,7 @@ sudo cp /etc/php.ini.default /etc/php.ini
 
 [![QQ20160219-2@2x](/assets/images/2016/02/QQ20160219-2@2x.png)](/assets/images/2016/02/QQ20160219-2@2x.png)
 
-&nbsp;
+ 
 
 显示以下内容则PHP开启完成
 
