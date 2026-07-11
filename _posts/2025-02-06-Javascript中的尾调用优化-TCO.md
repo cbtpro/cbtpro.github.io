@@ -269,7 +269,9 @@ console.log(ifTcoSupport);
 
 主要应用场景：
 
-1. 尾递归优化： 在不支持尾调用优化的编程语言或运行环境中，深度递归可能导致栈溢出。通过使用 Trampoline 技术，可以将递归调用转换为迭代过程，避免栈的增长，从而防止栈溢出。这通常通过将递归调用封装为返回一个函数（即“蹦床”），由一个循环不断执行这些函数，直到得到最终结果。2. 高阶函数实现： 在某些编程语言中，特别是函数式编程语言，Trampoline 被用于实现高阶函数。通过使用 Trampoline，可以在不增加调用栈深度的情况下，连续调用多个函数。3. 跨语言或不同调用约定的函数调用： 当需要在不同编程语言之间进行函数调用，或者在具有不同调用约定的函数之间进行调用时，Trampoline 可以作为中介，协调不同的调用约定，确保函数能够正确调用。
+1. 尾递归优化： 在不支持尾调用优化的编程语言或运行环境中，深度递归可能导致栈溢出。通过使用 Trampoline 技术，可以将递归调用转换为迭代过程，避免栈的增长，从而防止栈溢出。这通常通过将递归调用封装为返回一个函数（即“蹦床”），由一个循环不断执行这些函数，直到得到最终结果。
+2. 高阶函数实现： 在某些编程语言中，特别是函数式编程语言，Trampoline 被用于实现高阶函数。通过使用 Trampoline，可以在不增加调用栈深度的情况下，连续调用多个函数。
+3. 跨语言或不同调用约定的函数调用： 当需要在不同编程语言之间进行函数调用，或者在具有不同调用约定的函数之间进行调用时，Trampoline 可以作为中介，协调不同的调用约定，确保函数能够正确调用。
 下面是一段 trampoline 解决尾递归优化的示例代码。
 
 ```javascript
@@ -379,4 +381,10 @@ console.log('trampolinedTest执行结果：', trampolinedTest(100000));
 
 ### 参考
 
-- [www.ruanyifeng.com/blog/2015/0…](https://www.ruanyifeng.com/blog/2015/04/tail-call.html)- [stackoverflow.com/questions/5…](https://stackoverflow.com/questions/54719548/tail-call-optimization-implementation-in-javascript-engines)- [stackoverflow.com/questions/3…](https://stackoverflow.com/questions/3660577/are-any-javascript-engines-tail-call-tco-optimized)- [stackoverflow.com/questions/3…](https://stackoverflow.com/questions/37224520/are-functions-in-javascript-tail-call-optimized)- [特性：尾调用消除（ES6）(不再执行)](https://chromestatus.com/feature/5516876633341952)- [v8.dev/blog/modern…](https://v8.dev/blog/modern-javascript#proper-tail-calls)- [node.green/#ES2015-opt…](https://node.green/#ES2015-optimisation-proper-tail-calls--tail-call-optimisation-)
+- [www.ruanyifeng.com/blog/2015/0…](https://www.ruanyifeng.com/blog/2015/04/tail-call.html)
+- [stackoverflow.com/questions/5…](https://stackoverflow.com/questions/54719548/tail-call-optimization-implementation-in-javascript-engines)
+- [stackoverflow.com/questions/3…](https://stackoverflow.com/questions/3660577/are-any-javascript-engines-tail-call-tco-optimized)
+- [stackoverflow.com/questions/3…](https://stackoverflow.com/questions/37224520/are-functions-in-javascript-tail-call-optimized)
+- [特性：尾调用消除（ES6）(不再执行)](https://chromestatus.com/feature/5516876633341952)
+- [v8.dev/blog/modern…](https://v8.dev/blog/modern-javascript#proper-tail-calls)
+- [node.green/#ES2015-opt…](https://node.green/#ES2015-optimisation-proper-tail-calls--tail-call-optimisation-)

@@ -20,7 +20,20 @@ Easy-Peasy 是对 Redux 的一种抽象。它提供了一个重新构思的 API�
 
 它社区活跃、更新稳定，跟随社区的 redux 版本同步更新。
 
-- Zero configuration 零配置- No boilerplate 无冗余代码- React hooks based API 基于React Hook的API- Extensive TypeScript support 广泛的TypeScript支持- Encapsulate data fetching 封装数据获取- Computed properties 计算属性- Reactive actions 响应式动作- Redux middleware support 支持 Redux 中间件- State persistence 状态持久性- Redux Dev Tools 支持Redux开发工具- Global, context, or local stores 全局、上下文或本地存储- Built-in testing utils 内置测试工具- React Native supported 支持 React Native- Hot reloading supported 支持热重载
+- Zero configuration 零配置
+- No boilerplate 无冗余代码
+- React hooks based API 基于React Hook的API
+- Extensive TypeScript support 广泛的TypeScript支持
+- Encapsulate data fetching 封装数据获取
+- Computed properties 计算属性
+- Reactive actions 响应式动作
+- Redux middleware support 支持 Redux 中间件
+- State persistence 状态持久性
+- Redux Dev Tools 支持Redux开发工具
+- Global, context, or local stores 全局、上下文或本地存储
+- Built-in testing utils 内置测试工具
+- React Native supported 支持 React Native
+- Hot reloading supported 支持热重载
 所有这些功能只需安装一个依赖项即可实现。
 
 ## 创建nextjs项目
