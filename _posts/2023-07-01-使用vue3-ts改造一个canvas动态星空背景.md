@@ -4,7 +4,7 @@ title: "使用vue3+ts改造一个canvas动态星空背景"
 date: 2023-07-01
 tags: ["Vue.js", "前端", "AI编程", "微信小程序", "uni-app", "JavaScript"]
 ---
-![](/assets/images/7250658226412060731-1.jpg)
+![星空静态背景](/assets/images/2023/07/01/star-bg.gif)
 
 > 在线预览 [cbtpro.github.io/vue-star-bg](https://cbtpro.github.io/vue-star-bg)
 > 完整的项目代码 [github.com/cbtpro/vue-…](https://github.com/cbtpro/vue-star-bg)
@@ -13,16 +13,30 @@ tags: ["Vue.js", "前端", "AI编程", "微信小程序", "uni-app", "JavaScript
 
 文件 `star.html`
 
-```javascript
+```js
 <html lang="zh-CN">
 
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>星星背景</title>
+</head>
 
+<body>
+  <style>
+    * {
+      margin: 0;
+    }
+
+    .star-bg-canvas {
+      width: 400px;
+      height: 400px;
+    }
+  </style>
   <div class="container">
     <canvas id="star-bg-canvas"></canvas>
-
+  </div>
+  <script>
     function resizeCanvas() {
       const canvas = document.getElementById('star-bg-canvas'),
         ctx = canvas.getContext('2d'),
@@ -145,7 +159,10 @@ tags: ["Vue.js", "前端", "AI编程", "微信小程序", "uni-app", "JavaScript
         resizeCanvas();
       }
     };
+  </script>
+</body>
 
+</html>
 ```
 
 要把它移植到vue3项目中，如果直接拷贝进vue文件里，实在是不优雅，需要根据vue3的特性，将代码修改成响应式的。
@@ -200,7 +217,7 @@ export const maxOrbit = (x: number, y: number) => {
 
 将星星对象单独拆分出一个ts文件，这里注意，因为`interface IStarOptions {}`只在`class Star {}`的构造函数中使用了，如果在外部使用了1、2次，定义在Star.ts中完全没有问题，其他地方要使用，直接导入就可以使用了。
 
-如果是用得非常多的，比如请求返回体封装`IResponseBody`，这种使用频率超高的类型，应该单独定义在`d.ts`文件中，并通过`ts.config.json中`配置路径。
+如果是用得非常多的，比如请求返回体封装`IResponseBody<T>`，这种使用频率超高的类型，应该单独定义在`d.ts`文件中，并通过`tsconfig.json`配置路径。
 
 ```typescript
 // src/components/star/Star.ts
@@ -386,10 +403,20 @@ onBeforeUnmount(() => {
   }
   window.removeEventListener('resize', resizeCanvas);
 });
+</script>
 
+<template>
   <div class="container">
     <canvas ref="canvasRef" class="star-bg-canvas"></canvas>
+  </div>
+</template>
 
+<style scoped>
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+</style>
 ```
 
 ### 加载图片

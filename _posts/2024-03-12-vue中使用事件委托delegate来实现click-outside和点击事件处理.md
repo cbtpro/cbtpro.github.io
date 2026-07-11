@@ -6,7 +6,7 @@ tags: ["前端", "JavaScript", "Vue.js", "C#", "Java", "iOS"]
 ---
 ## 什么是事件委托
 
-请看文档：[developer.mozilla.org/zh-CN/docs/…](https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Building_blocks/Events#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98)
+请看文档：https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Building_blocks/Events#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98
 
 事件委托在十多年前jQuery大行其道的时候使用频率极高，彼时angular、react、vue还没有出生，事件委托是每个前端程序员知道并熟练掌握的一项性能优化技能，也是面试必问的问题。
 
@@ -16,13 +16,17 @@ tags: ["前端", "JavaScript", "Vue.js", "C#", "Java", "iOS"]
 
 典型的应用场景有：
 
-1. 点击弹窗层外部元素外部隐藏弹出层2. 大数据列表
-大数据列表mdn的实例里已经有了，使用事件委托，对大数据列表优化的效果还是非常可观的。3. 处理v-html中的a标签点击事件。4. 处理全局拖拽文件上传，通过事件冒泡，拦截拖拽文件上传统一处理上传文件操作。
+1. 点击弹窗层外部元素外部隐藏弹出层
+2. 大数据列表
+   大数据列表mdn的实例里已经有了，使用事件委托，对大数据列表优化的效果还是非常可观的。
+3. 处理`v-html`中的`a`标签点击事件。
+4. 处理全局拖拽文件上传，通过事件冒泡，拦截拖拽文件上传统一处理上传文件操作。
+
 ## click-outside
 
 vue指令实现事件委托
 
-```typescript
+```ts
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 
 type DocumentHandler = <T extends MouseEvent>(e:T) => void
@@ -59,6 +63,7 @@ const clickOutsideHandle = (e: MouseEvent) => {
   }
 }
 
+
 export const clickOutside: ObjectDirective = {
   beforeMount(el, binding) {
     nodeList = {
@@ -77,11 +82,13 @@ export const clickOutside: ObjectDirective = {
     window.removeEventListener('click', clickOutsideHandle)
   }
 }
+
 ```
 
-```text
 注册
 
+```html
+<div v-click-outside="fn"></div>
 ```
 
 扩展：
@@ -89,7 +96,7 @@ export const clickOutside: ObjectDirective = {
 vue自定义指令传参
 增加忽略列表
 
-```typescript
+```ts
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 
 type DocumentHandler = <T extends MouseEvent>(e:T) => void
@@ -143,6 +150,7 @@ const clickOutsideHandle = (e: MouseEvent) => {
   }
 }
 
+
 export const clickOutside: ObjectDirective = {
   beforeMount(el, binding) {
     nodeList = {
@@ -161,11 +169,12 @@ export const clickOutside: ObjectDirective = {
     window.removeEventListener('click', clickOutsideHandle)
   }
 }
+
 ```
 
 但上面的代码有一处致命的bug，一个页面中使用多次，只有最后一个元素的事件是生效的，下面将指令的实例中存储一个nodeList列表全局维护所有绑定了click-outside指令的节点，所有节点用通过一个click事件来处理，如果有存在任何一个节点，就不移除事件。支持多处使用。
 
-```javascript
+```ts
 // 导入Vue的指令相关类型
 import type { DirectiveBinding, Directive } from 'vue'
 
@@ -277,14 +286,18 @@ const clickOutside: Directive = {
 // 导出指令名称和指令对象
 export const name = 'ClickOutside'
 export default clickOutside
+
 ```
 
 ## 使用方法
 
 ```html
-
-  <div v-click-outside:[clickOptions]="closeHandle">……
-……</div>
+<template>
+  <!-- 有参数 -->
+  <div v-click-outside:[clickOptions]="closeHandle">……</div>
+  <!-- 无参数 -->
+  <div v-click-outside="closeHandle">……</div>
+</template>
 
 <script setup lang="ts">
 const clickOptions = {
@@ -293,31 +306,33 @@ const clickOptions = {
 const closeHandle = () => {
   // 处理关闭事件
 }
-
+</script>
 ```
 
 这是一个使用 Vue.js 的 `v-click-outside` 指令的示例代码。它定义了一个点击外部事件处理函数，并根据是否传入参数来决定如何使用指令。
 在模板中，有两种使用 `v-click-outside` 指令的方式：
 
-1. 带参数的用法：
-```html
+1. **带参数的用法**：
 
-   <div v-click-outside:[clickOptions]="closeHandle">...</div>
+```html
+<!-- 有参数 -->
+<div v-click-outside:[clickOptions]="closeHandle">...</div>
 ```
 
 这种方式会将 `clickOptions` 对象作为参数传递给指令的处理函数。在示例中，`clickOptions` 对象包含了一个 `ignores` 属性，用于指定要忽略的元素类名或 ID。
-2.  无参数的用法：
+
+2. **无参数的用法**：
 
 ```html
-
-   <div v-click-outside="closeHandle">...</div>
+<!-- 无参数 -->
+<div v-click-outside="closeHandle">...</div>
 ```
 
 这种方式直接将处理函数 `closeHandle` 作为参数传递给指令。
 
 在脚本部分，定义了 `clickOptions` 对象和 `closeHandle` 函数。`clickOptions` 对象用于配置点击外部事件的一些选项，例如要忽略的元素。`closeHandle` 函数是点击外部事件的处理函数，用于执行关闭操作或其他逻辑。
 
-## 处理v-html中的a标签
+## 处理`v-html`中的`a`标签
 
 下面这段代码模拟从后台获取html渲染到前端，我们假定内容是安全的，html中进行了初步的数据绑定。
 
@@ -332,10 +347,10 @@ const TYPE = {
 
 const htmlText = [
   // 匹配到企业id，href和target不用写，这里只是用来表达js阻止了a链接的默认跳转
-  '[xxx公司](https://wwww.baidu.com)',
-  '[bbb公司](https://wwww.baidu.com)',
+  '<a data-type="enterprise" data-eid="1111" data-name="xxx公司" href="https://wwww.baidu.com" target="_blank">xxx公司</a>',
+  '<a data-type="enterprise" data-eid="333" data-name="bbb公司" href="https://wwww.baidu.com" target="_blank">bbb公司</a>',
   // 匹配到用户id
-  '[王某某](https://wwww.baidu.com)',
+  '<a data-type="person" data-pid="2222" data-name="王某某" href="https://wwww.baidu.com" target="_blank">王某某</a>',
   // 没有匹配到用户id
   '<a data-type="person" data-pid="" data-name="李某某">李某某</a>',
 ]
@@ -366,10 +381,47 @@ const reportClickHandle = (evt) => {
     personClickHandle(dataset)
   }
 }
+</script>
 
+<template>
+  <div class="demo">
+    <div v-html="htmlStr" @click="reportClickHandle" class="report-html"></div>
+  </div>
+</template>
+
+<style>
+.demo {
+  .report-html {
+    a {
+      text-decoration: none;
+    }
+
+    a[data-eid]:not([data-eid='']):hover,
+    a[data-pid]:not([data-pid='']):hover {
+      color: #1864dc;
+    }
+
+    a[data-type='enterprise'] {
+      color: #3981f4;
+    }
+
+    a[data-type='person'] {
+      color: #3981f4;
+    }
+
+    a[data-type='person'] {
+      color: #3981f4;
+    }
+
+    a[data-pid=''] {
+      color: #000;
+    }
+  }
+}
+</style>
 ```
 
-上面这段代码中有`[xxx公司](https://wwww.baidu.com)`，渲染到`v-html`中点击时，会打开一个新的页面，但显然我不想让它能打开新的页面，我需要自己去控制逻辑，比如在app的webview中，我需要调用原生的方法来打开一个新的webview，好控制导航栏，如果直接a链接，会打开一个导航不受控制的webview。
+上面这段代码中有`<a data-type="enterprise" data-eid="1111" data-name="xxx公司" href="https://wwww.baidu.com" target="_blank">xxx公司</a>`，渲染到`v-html`中点击时，会打开一个新的页面，但显然我不想让它能打开新的页面，我需要自己去控制逻辑，比如在app的webview中，我需要调用原生的方法来打开一个新的webview，好控制导航栏，如果直接a链接，会打开一个导航不受控制的webview。
 所以我需要用一个事件委托来处理。
 
 我在如容器绑定了一个点击事件，通过事件冒泡的原理来处理`a`标签的点击事件。使用`evt.preventDefault()`阻止a标签的默认行为。

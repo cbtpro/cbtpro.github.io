@@ -6,7 +6,7 @@ tags: ["TypeScript", "前端", "Vue.js", "后端", "axios", "Java"]
 ---
 Promise跟TS搭配，可以让IDE有更好的体验，下面分享一下我使用的经验和体会。
 
-Promise是支持`Promise((resolve, reject) => {})`。
+Promise是支持`Promise<T>((resolve, reject) => {})`。
 
 ## 定义interface或type
 
@@ -134,7 +134,7 @@ export const useInterceptors = () => {
 
 ```javascript
 // src/api/index.ts
-mport axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import defaultConfig from './config.default';
 import { useInterceptors } from './interceptors';
 
@@ -183,7 +183,7 @@ export const useApi = () => {
 这里着重讲一下`request`方法，定义了范型`T`，使用时可传入需要返回的类型。
 注意`IResponseBody`这个类型，因为默认后台返回数据是规范的，所有接口正常和错误都会按照这个格式来返回数据，所以只要定义一个类型就能满足所有需求，如果不能，后端又没办法返回统一格式的数据，这时候再另外定义方法。
 
-then方法中的response是`AxiosResponse>, any>`类型，它是http返回体，所以`response.data`就是我们需要关注的responseBody，如果http请求返回的statusCode不是2xx，catch就会执行，直接reject(error)即可，调试时可以在拦截器中添加debugger，查看下执行逻辑。
+then方法中的response是`AxiosResponse<Promise<IResponseBody<T>>, any>`类型，它是http返回体，所以`response.data`就是我们需要关注的responseBody，如果http请求返回的statusCode不是2xx，catch就会执行，直接reject(error)即可，调试时可以在拦截器中添加debugger，查看下执行逻辑。
 
 这里也可以在执行请求前，进行一些加载的状态转换或者显示一个加载loading，然后在finially中进行隐藏的状态转换。因为finally一定会执行，除非拦截器中也发生了错误。
 
@@ -217,14 +217,14 @@ const request = <T>(config: AxiosRequestConfig) => {
 
 比如说如果后台返回接口非2xx状态，仍然想要能正常处理逻辑，catch中可以resolve一个默认值。
 
-也可以在then中`resolve(response.data)`，将`Promise>`修改成`Promise`，那么调用`getTest`时就获取的就直接时ITest对象了。
+也可以在then中`resolve(response.data)`，将`Promise<IResponseBody<ITest>>`修改成`Promise<ITest>`，那么调用`getTest`时就获取的就直接时ITest对象了。
 
 建议不要在这个函数里做太多的逻辑处理，异常处理在axios的拦截器、和onSendRequest调用`await getTest()`时用`try{} catch{}`去处理。
 
 ```javascript
 const getTest = async (username: string) => {
-  return new Promise>((resolve, reject) => {
-    request({
+  return new Promise<IResponseBody<ITest>>((resolve, reject) => {
+    request<ITest>({
       url: '/api/index/test',
       method: 'GET',
       data: {
@@ -253,10 +253,10 @@ const onSendRequest = async () => {
 ```
 
 ```javascript
-const authorityList = ref([]);
+const authorityList = ref<IAuthority[]>([]);
 const getAuthority = async () => {
-  return new Promise>((resolve, reject) => {
-    request({
+  return new Promise<IResponseBody<IAuthority[]>>((resolve, reject) => {
+    request<IAuthority[]>({
       url: '/api/index/authority',
       method: 'GET',
       data: {
@@ -284,11 +284,11 @@ const onGetAuthorityList = async () => {
 ```
 
 下面更简单的例子来描述下这个过程，
-当我们定义了`return new Promise((resolve, reject) => {}`范型类型为`string[]`时，ts为检测resolve()的类型是不是定义的类型。
+当我们定义了`return new Promise<string[]>((resolve, reject) => {}`范型类型为`string[]`时，ts为检测resolve()的类型是不是定义的类型。
 
-`删掉范型类型，则return的值也会是Promise`,在`const list = await promiseTest();`中，list也不会推断出类型，需要在后面使用`as string[]`进行类型断言，十分不优雅。
+`删掉范型类型，则return的值也会是Promise<unknown>`,在`const list = await promiseTest();`中，list也不会推断出类型，需要在后面使用`as string[]`进行类型断言，十分不优雅。
 
-![](/assets/images/7251786209340112956-1.jpg)
+![promise+ts 类型推断演示](/assets/images/2023/07/04/promise-ts.gif)
 
 `const list = await promiseTest() as string[];`
 
